@@ -4,6 +4,9 @@ This system will help your community get paid more based on how much they are wi
 
 Once you decide a job on which to write a book, the players can purchase it and get extra experience / money based on the skill level they have.
 
+### Join the [Discord](https://discord.gg/bx6fs2AeWC) for support and updates
+
+
 ## Showcase
 
 ![bookmaster](pictures/uishowcase.png)
