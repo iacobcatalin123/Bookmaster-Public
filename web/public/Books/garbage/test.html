@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garbage Man Quiz</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { overflow: scroll; }
+        body::-webkit-scrollbar { display: none; }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #ff6347 3px solid;
+        }
+        header h1 {
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .quiz-form {
+            margin: 20px 0;
+        }
+        .quiz-form div {
+            margin-bottom: 15px;
+        }
+        .quiz-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .quiz-form input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #ff6347;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .quiz-form input[type="submit"]:hover {
+            background: #e55335;
+        }
+        .result {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-trash-alt"></i> Garbage Man Quiz</h1>
+        </div>
+    </header>
+    <div class="container content">
+        <h2><i class="fas fa-question-circle"></i> Quiz</h2>
+        <form class="quiz-form" id="quizForm">
+            <div>
+                <label>1. What is the primary responsibility of a garbage man?</label>
+                <input type="radio" name="q1" value="a"> Delivering mail<br>
+                <input type="radio" name="q1" value="b"> Collecting and disposing of waste<br>
+                <input type="radio" name="q1" value="c"> Cooking food<br>
+            </div>
+            <div>
+                <label>2. Which skill is essential for maintaining collection schedules?</label>
+                <input type="radio" name="q2" value="a"> Time management<br>
+                <input type="radio" name="q2" value="b"> Painting<br>
+                <input type="radio" name="q2" value="c"> Singing<br>
+            </div>
+            <div>
+                <label>3. What type of training is crucial for garbage men?</label>
+                <input type="radio" name="q3" value="a"> Cooking training<br>
+                <input type="radio" name="q3" value="b"> Safety training<br>
+                <input type="radio" name="q3" value="c"> Music training<br>
+            </div>
+            <div>
+                <label>4. Why is knowledge of recycling important for garbage men?</label>
+                <input type="radio" name="q4" value="a"> To promote sustainable waste disposal<br>
+                <input type="radio" name="q4" value="b"> To write novels<br>
+                <input type="radio" name="q4" value="c"> To play sports<br>
+            </div>
+            <input type="submit" value="Submit Quiz">
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('quizForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var answers = ['b', 'a', 'b', 'a'];
+            var score = 0;
+            var form = event.target;
+            
+            answers.forEach(function(answer, index) {
+                var question = form['q' + (index + 1)];
+                if (question.value === answer) {
+                    score++;
+                }
+            });
+
+            var resultText = 'You scored ' + score + ' out of ' + answers.length + '.';
+            document.getElementById('result').innerText = resultText;
+
+            fetch(`https://bookmaster/getTestResults`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                score: score,
+                total: answers.length,
+                skillName: "garbage",
+                skillLevel: "1.25" //basically the multiplier for the job money/exp/whatever else to be multiplied by, in this case is 25% more
+            }),
+        });
+        });
+    </script>
+</body>
+</html>

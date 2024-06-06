@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metal Mining Quiz</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+
+body { overflow: scroll; }
+body::-webkit-scrollbar { display: none; }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #ffd700 3px solid;
+        }
+        header h1 {
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+            background: #fff;
+            margin-top: 20px;
+        }
+        .quiz-form {
+            margin: 20px 0;
+        }
+        .quiz-form div {
+            margin-bottom: 15px;
+        }
+        .quiz-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .quiz-form input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #ffd700;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .quiz-form input[type="submit"]:hover {
+            background: #e6c200;
+        }
+        .result {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1><i class="fas fa-hammer"></i> Metal Mining Quiz</h1>
+    </div>
+</header>
+<div class="container content">
+    <h2><i class="fas fa-coins fa-gold"></i> Quiz</h2>
+    <form class="quiz-form" id="quizForm">
+        <div>
+            <label>1. What is the chemical symbol for iron?</label>
+            <input type="radio" name="q1" value="a"> Ir<br>
+            <input type="radio" name="q1" value="b"> Fe<br>
+            <input type="radio" name="q1" value="c"> Cu<br>
+        </div>
+        <div>
+            <label>2. Which method is commonly used for gold mining?</label>
+            <input type="radio" name="q2" value="a"> Placer mining<br>
+            <input type="radio" name="q2" value="b"> Fracking<br>
+            <input type="radio" name="q2" value="c"> Offshore drilling<br>
+        </div>
+        <div>
+            <label>3. What property makes copper valuable for electrical wiring?</label>
+            <input type="radio" name="q3" value="a"> High melting point<br>
+            <input type="radio" name="q3" value="b"> High electrical conductivity<br>
+            <input type="radio" name="q3" value="c"> Resistance to corrosion<br>
+        </div>
+        <div>
+            <label>4. What color is a freshly exposed surface of pure gold?</label>
+            <input type="radio" name="q4" value="a"> Silver<br>
+            <input type="radio" name="q4" value="b"> Pinkish-orange<br>
+            <input type="radio" name="q4" value="c"> Yellow<br>
+        </div>
+        <input type="submit" value="Submit Quiz">
+    </form>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    document.getElementById('quizForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var answers = ['b', 'a', 'b', 'b'];
+        var score = 0;
+        var form = event.target;
+
+        answers.forEach(function(answer, index) {
+            var question = form['q' + (index + 1)];
+            if (question.value === answer) {
+                score++;
+            }
+        });
+
+        var resultText = 'You scored ' + score + ' out of ' + answers.length + '.';
+        document.getElementById('result').innerText = resultText;
+
+        fetch(`https://bookmaster/getTestResults`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                score: score,
+                total: answers.length,
+                skillName: "mining",
+                skillLevel: "1.25" //basically the multiplier for the job money/exp/whatever else to be multiplied by, in this case is 25% more
+            }),
+        });
+    });
+</script>
+</body>
+</html>
