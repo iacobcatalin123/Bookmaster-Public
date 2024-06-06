@@ -2,6 +2,8 @@
 
 This system will help your community get paid more based on how much they are willing to spend on education :)
 
+Once you decide a job on which to write a book, the players can purchase it and get extra experience / money based on the skill level they have.
+
 ## Showcase
 
 ![bookmaster](pictures/uishowcase.png)
